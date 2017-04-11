@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 imageFile = createImageFile();
             } catch (IOException ex) {
-                // Error occurred while creating the File
+                Timber.e("Error while creating image file", ex);
             }
             if (imageFile != null) {
                 final Uri photoURI = FileProvider.getUriForFile(this,

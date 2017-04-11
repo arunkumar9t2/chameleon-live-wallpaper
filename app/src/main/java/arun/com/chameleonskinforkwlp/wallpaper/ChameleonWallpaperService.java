@@ -15,7 +15,7 @@ import android.view.SurfaceHolder;
 import java.util.HashMap;
 import java.util.List;
 
-import arun.com.chameleonskinforkwlp.Swatch;
+import arun.com.chameleonskinforkwlp.engine.Swatch;
 import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.LollipopWallRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;

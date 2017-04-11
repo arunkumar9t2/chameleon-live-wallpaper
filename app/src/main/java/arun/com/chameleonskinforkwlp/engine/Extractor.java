@@ -8,8 +8,6 @@ import android.support.v7.graphics.Palette;
 import java.util.ArrayList;
 import java.util.List;
 
-import arun.com.chameleonskinforkwlp.Swatch;
-
 public class Extractor {
     private final Bitmap bitmap;
     private int noOfColors = 0;
