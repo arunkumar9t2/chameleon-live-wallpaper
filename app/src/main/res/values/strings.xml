@@ -90,4 +90,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="camera_not_found">Could not find any compatible camera apps on your device.</string>
+    <string name="could_not_launch_camera">Unexpected error when trying to launch camera.</string>
 </resources>

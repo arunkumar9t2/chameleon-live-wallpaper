@@ -3,6 +3,7 @@ package arun.com.chameleonskinforkwlp;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
 
 public class Swatch implements Parcelable {
@@ -16,7 +17,7 @@ public class Swatch implements Parcelable {
         this.foregroundColor = foregroundColor;
     }
 
-    public Swatch(Palette.Swatch paletteSwatch) {
+    public Swatch(@Nullable Palette.Swatch paletteSwatch) {
         if (paletteSwatch != null) {
             this.backgroundColor = paletteSwatch.getRgb();
             this.foregroundColor = paletteSwatch.getTitleTextColor();

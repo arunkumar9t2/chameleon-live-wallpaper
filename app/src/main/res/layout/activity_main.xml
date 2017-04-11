@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data />
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="handlers"
+            type="arun.com.chameleonskinforkwlp.MainActivity" />
+    </data>
 
     <android.support.design.widget.CoordinatorLayout
-
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
@@ -27,6 +34,14 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+                <ImageView
+                    android:id="@+id/backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:scaleType="centerCrop"
+                    app:layout_collapseMode="parallax" />
+
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
@@ -43,10 +58,10 @@
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
+            android:onClick="@{handlers::onFabClick}"
             android:tint="@color/md_white_1000"
-            app:layout_anchor="@id/app_bar"
-            app:layout_anchorGravity="bottom|end"
             app:srcCompat="@drawable/ic_camera" />
 
     </android.support.design.widget.CoordinatorLayout>
