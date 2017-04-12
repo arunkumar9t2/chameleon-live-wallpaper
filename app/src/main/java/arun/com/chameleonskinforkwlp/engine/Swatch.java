@@ -17,7 +17,7 @@ public class Swatch implements Parcelable {
         this.foregroundColor = foregroundColor;
     }
 
-    public Swatch(@Nullable Palette.Swatch paletteSwatch) {
+    Swatch(@Nullable Palette.Swatch paletteSwatch) {
         if (paletteSwatch != null) {
             this.backgroundColor = paletteSwatch.getRgb();
             this.foregroundColor = paletteSwatch.getTitleTextColor();
@@ -63,8 +63,36 @@ public class Swatch implements Parcelable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Swatch swatch = (Swatch) o;
+
+        if (backgroundColor != swatch.backgroundColor) return false;
+        return foregroundColor == swatch.foregroundColor;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = backgroundColor;
+        result = 31 * result + foregroundColor;
+        return result;
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(backgroundColor);
         dest.writeInt(foregroundColor);
     }
+
+    @Override
+    public String toString() {
+        return "Swatch{" +
+                "backgroundColor=" + backgroundColor +
+                ", foregroundColor=" + foregroundColor +
+                '}';
+    }
+
 }

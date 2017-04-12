@@ -1,5 +1,6 @@
 package arun.com.chameleonskinforkwlp.engine;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
@@ -8,31 +9,32 @@ import android.support.v7.graphics.Palette;
 import java.util.ArrayList;
 import java.util.List;
 
+import timber.log.Timber;
+
 public class Extractor {
     private final Bitmap bitmap;
+    private final Context context;
     private int noOfColors = 0;
 
-    public Extractor(Bitmap bitmap) {
+    private Extractor(Context context, Bitmap bitmap) {
         this.bitmap = bitmap;
+        this.context = context.getApplicationContext();
     }
 
-    public Extractor(Bitmap bitmap, int noOfColors) {
+    public Extractor(Context context, Bitmap bitmap, int noOfColors) {
         this.bitmap = bitmap;
+        this.context = context.getApplicationContext();
         this.noOfColors = noOfColors;
     }
 
-    @WorkerThread
-    public List<Swatch> getColorSwatches() {
-        List<Swatch> colorSwatches = new ArrayList<>();
+    public static Extractor forBitmap(Context context, Bitmap bitmap) {
+        return new Extractor(context, bitmap);
+    }
 
-        List<Palette.Swatch> generatedSwatches = extractSwatches();
-
-        // Copy all the swatches to our own POJO
-        for (final Palette.Swatch paletteSwatch : generatedSwatches) {
-            colorSwatches.add(paletteSwatch != null ? new Swatch(paletteSwatch) : null);
-        }
-        recycleBitmap();
-        return colorSwatches;
+    public void doExtraction() {
+        final List<Swatch> colorSwatches = extractSwatches();
+        Timber.d("Extracted colors : %s", colorSwatches);
+        Broadcaster.broadcastColors(context, colorSwatches);
     }
 
     private void recycleBitmap() {
@@ -43,8 +45,9 @@ public class Extractor {
 
     @NonNull
     @WorkerThread
-    private List<Palette.Swatch> extractSwatches() {
-        final List<Palette.Swatch> swatchList = new ArrayList<>();
+    private List<Swatch> extractSwatches() {
+        final List<Swatch> colorSwatches = new ArrayList<>();
+        final List<Palette.Swatch> generatedSwatches = new ArrayList<>();
         if (bitmap != null) {
             final Palette palette;
             if (noOfColors != 0) {
@@ -76,14 +79,19 @@ public class Extractor {
                 vibrantLightSwatch = mutedLightSwatch;
             }
 
-            swatchList.add(dominantSwatch);
-            swatchList.add(vibrantSwatch);
-            swatchList.add(vibrantDarkSwatch);
-            swatchList.add(vibrantLightSwatch);
-            swatchList.add(mutedSwatch);
-            swatchList.add(mutedDarkSwatch);
-            swatchList.add(mutedLightSwatch);
+            generatedSwatches.add(dominantSwatch);
+            generatedSwatches.add(vibrantSwatch);
+            generatedSwatches.add(vibrantDarkSwatch);
+            generatedSwatches.add(vibrantLightSwatch);
+            generatedSwatches.add(mutedSwatch);
+            generatedSwatches.add(mutedDarkSwatch);
+            generatedSwatches.add(mutedLightSwatch);
+
+            for (final Palette.Swatch paletteSwatch : generatedSwatches) {
+                colorSwatches.add(paletteSwatch != null ? new Swatch(paletteSwatch) : null);
+            }
+            recycleBitmap();
         }
-        return swatchList;
+        return colorSwatches;
     }
 }

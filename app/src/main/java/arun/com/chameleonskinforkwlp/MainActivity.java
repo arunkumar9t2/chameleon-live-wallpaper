@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
+import arun.com.chameleonskinforkwlp.engine.ExtractorService;
 import arun.com.chameleonskinforkwlp.preferences.Preferences;
 import timber.log.Timber;
 
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(currentPhotoPath)
                     .into(mainBinding.backdrop);
+            ExtractorService.startExtraction(this, currentPhotoPath);
         }
     }
 }

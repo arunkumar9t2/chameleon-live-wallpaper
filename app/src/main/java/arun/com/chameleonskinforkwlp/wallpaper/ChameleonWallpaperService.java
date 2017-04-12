@@ -61,11 +61,7 @@ public class ChameleonWallpaperService extends WallpaperService {
                     extractedColors = intent.getParcelableArrayListExtra("Colors");
                     if (extractedColors != null) {
                         // Re render with updated extractedColors
-                        if (visible) {
-                            handler.post(drawRunnable);
-                        } else {
-                            handler.removeCallbacks(drawRunnable);
-                        }
+                        renderIfVisible();
                     }
                 }
             }
@@ -97,11 +93,7 @@ public class ChameleonWallpaperService extends WallpaperService {
         @Override
         public void onVisibilityChanged(boolean visible) {
             this.visible = visible;
-            if (visible) {
-                handler.post(drawRunnable);
-            } else {
-                handler.removeCallbacks(drawRunnable);
-            }
+            renderIfVisible();
         }
 
         @Override
@@ -122,6 +114,14 @@ public class ChameleonWallpaperService extends WallpaperService {
         public void onTouchEvent(MotionEvent event) {
             if (touchEnabled) {
                 super.onTouchEvent(event);
+            }
+        }
+
+        private void renderIfVisible() {
+            if (visible) {
+                handler.post(drawRunnable);
+            } else {
+                handler.removeCallbacks(drawRunnable);
             }
         }
 

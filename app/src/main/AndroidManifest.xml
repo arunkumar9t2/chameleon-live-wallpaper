@@ -3,6 +3,7 @@
     package="arun.com.chameleonskinforkwlp">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -33,6 +34,7 @@
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
             </intent-filter>
+
             <meta-data
                 android:name="android.service.wallpaper"
                 android:resource="@xml/wallpaper" />
@@ -47,6 +49,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".engine.ExtractorService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
