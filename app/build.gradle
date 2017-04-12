@@ -10,7 +10,7 @@ android {
         applicationId "arun.com.chameleonskinforkwlp"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 2
+        versionCode 3
         versionName "2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
@@ -19,7 +19,7 @@ android {
         release {
             shrinkResources false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         aaptOptions {
             noCompress 'zip', 'komp', 'klwp', 'kwgt', 'klck', 'kwch'

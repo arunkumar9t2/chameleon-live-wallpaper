@@ -13,7 +13,7 @@
 
         <variable
             name="theme"
-            type="Integer" />
+            type="int" />
 
         <variable
             name="handlers"
