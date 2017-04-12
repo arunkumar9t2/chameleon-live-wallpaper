@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initThemeSelector() {
+        mainBinding.setTheme(Preferences.get(this).getTheme());
+        mainBinding.executePendingBindings();
         Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.lollipopThemeThumbnail);
         Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.marshmallowThemeThumbnail);
     }

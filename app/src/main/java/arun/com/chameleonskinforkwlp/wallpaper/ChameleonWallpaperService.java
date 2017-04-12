@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -16,8 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import arun.com.chameleonskinforkwlp.engine.Swatch;
+import arun.com.chameleonskinforkwlp.preferences.Preferences;
 import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.LollipopWallRenderer;
+import arun.com.chameleonskinforkwlp.wallpaper.drawing.MarshmallowRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;
 
 public class ChameleonWallpaperService extends WallpaperService {
@@ -34,7 +38,7 @@ public class ChameleonWallpaperService extends WallpaperService {
         return new ChameleonWallpaperEngine();
     }
 
-    private class ChameleonWallpaperEngine extends Engine {
+    private class ChameleonWallpaperEngine extends Engine implements SharedPreferences.OnSharedPreferenceChangeListener {
         private final Handler handler = new Handler();
         private final Paint paint = new Paint();
         private final boolean touchEnabled;
@@ -77,6 +81,8 @@ public class ChameleonWallpaperService extends WallpaperService {
         @Override
         public void onCreate(SurfaceHolder surfaceHolder) {
             super.onCreate(surfaceHolder);
+            PreferenceManager.getDefaultSharedPreferences(ChameleonWallpaperService.this)
+                    .registerOnSharedPreferenceChangeListener(this);
             registerReceiver(colorExtractedReceiver, new IntentFilter(COLOR_CARRY_FILTER));
         }
 
@@ -84,6 +90,8 @@ public class ChameleonWallpaperService extends WallpaperService {
         public void onDestroy() {
             super.onDestroy();
             unregisterReceiver(colorExtractedReceiver);
+            PreferenceManager.getDefaultSharedPreferences(ChameleonWallpaperService.this)
+                    .unregisterOnSharedPreferenceChangeListener(this);
         }
 
         @Override
@@ -160,8 +168,20 @@ public class ChameleonWallpaperService extends WallpaperService {
             colorMap.put(LIGHT_MUTED, lightMuted);
             colorMap.put(DARK_MUTED, darkMuted);
 
-            final Renderer renderer = new LollipopWallRenderer();
+            final Renderer renderer;
+            if (Preferences.get(getApplicationContext()).getTheme() == Preferences.LOLLIPOP) {
+                renderer = new LollipopWallRenderer();
+            } else {
+                renderer = new MarshmallowRenderer();
+            }
             renderer.draw(canvas, paint, new Size(width, height), colorMap);
+        }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (Preferences.THEME_PREF.equalsIgnoreCase(key)) {
+                handler.post(drawRunnable);
+            }
         }
     }
 }
