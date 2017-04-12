@@ -52,7 +52,76 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_main" />
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            tools:context="arun.com.chameleonskinforkwlp.MainActivity"
+            tools:showIn="@layout/activity_main">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom|start"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/theme"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/lollipop_theme_card"
+                        style="@style/ThemeCard.Style"
+                        app:cardCornerRadius="2dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <ImageView
+                            android:id="@+id/lollipop_theme_thumbnail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/lollipop_theme_title"
+                            style="@style/ThemeTitle.Style"
+                            android:text="@string/lollipop" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/marshmallow_theme_card"
+                        style="@style/ThemeCard.Style"
+                        app:cardCornerRadius="2dp"
+                        app:cardPreventCornerOverlap="true"
+                        app:cardUseCompatPadding="true">
+
+                        <ImageView
+                            android:id="@+id/marshmallow_theme_thumbnail"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <TextView
+                            android:id="@+id/marshmallow_theme_title"
+                            style="@style/ThemeTitle.Style"
+                            android:text="@string/marshmallow" />
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"

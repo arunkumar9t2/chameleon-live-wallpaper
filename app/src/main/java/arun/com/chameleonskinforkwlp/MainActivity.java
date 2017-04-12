@@ -21,7 +21,6 @@ import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
-
     private ActivityMainBinding mainBinding;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -34,6 +33,12 @@ public class MainActivity extends AppCompatActivity {
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mainBinding.setHandlers(this);
         setSupportActionBar(mainBinding.toolbar);
+        initThemeSelector();
+    }
+
+    private void initThemeSelector() {
+        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.lollipopThemeThumbnail);
+        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.marshmallowThemeThumbnail);
     }
 
     @Override
