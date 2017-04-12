@@ -6,4 +6,7 @@
     <string name="theme">Theme</string>
     <string name="lollipop">Lollipop</string>
     <string name="marshmallow">Marshmallow</string>
+    <string name="grant">Grant</string>
+    <string name="camera_permission_rationale">Camera permision required to capture picture.</string>
+    <string name="need_camera_permssion">Camera permission is required to take picture and extract colors.</string>
 </resources>

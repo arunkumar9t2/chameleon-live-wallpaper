@@ -1,13 +1,18 @@
 package arun.com.chameleonskinforkwlp;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -23,32 +28,33 @@ import arun.com.chameleonskinforkwlp.preferences.Preferences;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
-    private ActivityMainBinding mainBinding;
+    private ActivityMainBinding binding;
 
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_CAMERA_PERMISSION = 112;
 
     private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mainBinding.setHandlers(this);
-        setSupportActionBar(mainBinding.toolbar);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setHandlers(this);
+        setSupportActionBar(binding.toolbar);
         initThemeSelector();
     }
 
     private void initThemeSelector() {
-        mainBinding.setTheme(Preferences.get(this).getTheme());
-        mainBinding.executePendingBindings();
-        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.lollipopThemeThumbnail);
-        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(mainBinding.marshmallowThemeThumbnail);
+        binding.setTheme(Preferences.get(this).getTheme());
+        binding.executePendingBindings();
+        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(binding.lollipopThemeThumbnail);
+        Glide.with(this).load(android.R.drawable.ic_dialog_email).into(binding.marshmallowThemeThumbnail);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mainBinding.unbind();
+        binding.unbind();
     }
 
     /**
@@ -57,6 +63,41 @@ public class MainActivity extends AppCompatActivity {
      * @param view FAB
      */
     public void onFabClick(View view) {
+        checkPermissionAndLaunchCamera();
+    }
+
+    /**
+     * Handler that will be fired when clicking either of the theme.
+     *
+     * @param view View that was clicked.
+     */
+    public void onThemeSelectorClicked(View view) {
+        binding.setTheme(Preferences.get(this).toggleTheme());
+        binding.executePendingBindings();
+    }
+
+    private void checkPermissionAndLaunchCamera() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            launchCamera();
+        } else {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                Snackbar.make(binding.coordinatorLayout, R.string.camera_permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.grant, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + getPackageName()));
+                                startActivity(intent);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            }
+        }
+    }
+
+    private void launchCamera() {
         final Intent capturePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Check if any app can handle this intent for us.
         final ComponentName componentName = capturePicIntent.resolveActivity(getPackageManager());
@@ -74,16 +115,11 @@ public class MainActivity extends AppCompatActivity {
                 capturePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(capturePicIntent, REQUEST_IMAGE_CAPTURE);
             } else {
-                Snackbar.make(mainBinding.coordinatorLayout, R.string.could_not_launch_camera, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.coordinatorLayout, R.string.could_not_launch_camera, Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Snackbar.make(mainBinding.coordinatorLayout, R.string.camera_not_found, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.coordinatorLayout, R.string.camera_not_found, Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    public void onThemeSelectorClicked(View view) {
-        mainBinding.setTheme(Preferences.get(this).toggleTheme());
-        mainBinding.executePendingBindings();
     }
 
     private File createImageFile() throws IOException {
@@ -104,8 +140,22 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Glide.with(this)
                     .load(currentPhotoPath)
-                    .into(mainBinding.backdrop);
+                    .into(binding.backdrop);
             ExtractorService.startExtraction(this, currentPhotoPath);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    checkPermissionAndLaunchCamera();
+                } else {
+                    Snackbar.make(binding.coordinatorLayout, R.string.need_camera_permssion, Snackbar.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 }
