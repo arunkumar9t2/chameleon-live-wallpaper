@@ -12,7 +12,7 @@ import static arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService.
 /**
  * Created by Arun on 05/08/2015.
  */
-public class Broadcaster {
+class Broadcaster {
     private static final String KUSTOM_ACTION = "org.kustom.action.SEND_VAR";
     private static final String KUSTOM_ACTION_EXT_NAME = "org.kustom.action.EXT_NAME";
     private static final String KUSTOM_ACTION_VAR_NAME = "org.kustom.action.VAR_NAME";

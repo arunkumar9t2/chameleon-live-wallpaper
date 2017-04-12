@@ -26,11 +26,11 @@ import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;
 
 public class ChameleonWallpaperService extends WallpaperService {
     public static final String ACTION_COLOR_EXTRACTED = "arun.com.chameleonskinforkwlp.COLOR_EXTRACTED";
-    public static String VIBRANT = "VIBRANT";
-    public static String DARK_VIBRANT = "DARK_VIBRANT";
-    public static String MUTED = "MUTED";
-    public static String LIGHT_MUTED = "LIGHT_MUTED";
-    public static String DARK_MUTED = "DARK_MUTED";
+    public static final String VIBRANT = "VIBRANT";
+    public static final String DARK_VIBRANT = "DARK_VIBRANT";
+    public static final String MUTED = "MUTED";
+    public static final String LIGHT_MUTED = "LIGHT_MUTED";
+    public static final String DARK_MUTED = "DARK_MUTED";
     private List<Swatch> extractedColors = null;
 
     @Override

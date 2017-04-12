@@ -69,8 +69,7 @@ public class Swatch implements Parcelable {
 
         Swatch swatch = (Swatch) o;
 
-        if (backgroundColor != swatch.backgroundColor) return false;
-        return foregroundColor == swatch.foregroundColor;
+        return backgroundColor == swatch.backgroundColor && foregroundColor == swatch.foregroundColor;
 
     }
 
