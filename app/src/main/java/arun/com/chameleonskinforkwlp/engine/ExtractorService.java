@@ -43,7 +43,6 @@ public class ExtractorService extends IntentService {
                     .centerCrop()
                     .into(720, 720)
                     .get();
-
             if (bitmap != null) {
                 Extractor.forBitmap(this, bitmap).doExtraction();
             }
