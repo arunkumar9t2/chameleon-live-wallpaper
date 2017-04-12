@@ -44,8 +44,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandlers(this);
-        setSupportActionBar(binding.toolbar);
+
+        initToolbar();
         initThemeSelector();
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(binding.toolbar);
+        Glide.with(this).load(R.drawable.backdrop).centerCrop().into(binding.backdrop);
     }
 
     private void initThemeSelector() {
