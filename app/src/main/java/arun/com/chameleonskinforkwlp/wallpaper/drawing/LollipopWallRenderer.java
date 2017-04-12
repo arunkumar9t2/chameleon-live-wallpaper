@@ -55,7 +55,7 @@ public class LollipopWallRenderer implements Renderer {
 
         // set the background color.
         canvas.drawColor(darkMuted);
-        this.paint.setShadowLayer(8.0f, 1.0f, 2.0f, 0x85000000);
+        this.paint.setShadowLayer(14.0f, 1.0f, 2.0f, 0x85000000);
 
         this.paint.setColor(muted);
         point1 = new Point(9 * block, 16 * block);
