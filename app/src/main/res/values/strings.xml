@@ -13,4 +13,8 @@
     <string name="wallpaper_create">Yes! Chameleon provides first party support to Kustom Live Wallpaper Maker app. With KLWP, you can design your own theme and use colors extracted by Chameleon. Below formulas represent each color category.</string>
     <string name="tap_to_copy">Tap to copy and paste it in Kustom</string>
     <string name="copied_alert">%s copied!</string>
+    <string name="kustom_not_found">Kustom not found</string>
+    <string name="set_as_system_wallpaper">Set as system wallpaper</string>
+    <string name="use_with_kustom">Use with Kustom</string>
+    <string name="rate_this_app">Rate this app!</string>
 </resources>
