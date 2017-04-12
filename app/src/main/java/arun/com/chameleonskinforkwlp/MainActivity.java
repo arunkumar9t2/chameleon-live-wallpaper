@@ -91,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
                                 .withSelectable(false)
                                 .withIdentifier(3)
                                 .withIcon(GoogleMaterial.Icon.gmd_star),
+                        new PrimaryDrawerItem()
+                                .withName(R.string.privacy_policy)
+                                .withIcon(GoogleMaterial.Icon.gmd_insert_drive_file)
+                                .withSelectable(false)
+                                .withIdentifier(4),
                         new DividerDrawerItem()
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -113,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
                                     break;
                                 case 3:
                                     Util.openPlayStore(MainActivity.this, getPackageName());
+                                    break;
+                                case 4:
+                                    Intent licenses = new Intent(Intent.ACTION_VIEW, Uri.parse("http://htmlpreview.github.com/?https://github.com/arunkumar9t2/chameleon-live-wallpaper/blob/master/privacy_policy.html"));
+                                    startActivity(licenses);
                                     break;
                             }
                         }
