@@ -9,4 +9,8 @@
     <string name="grant">Grant</string>
     <string name="camera_permission_rationale">Camera permision required to capture picture.</string>
     <string name="need_camera_permssion">Camera permission is required to take picture and extract colors.</string>
+    <string name="can_i_create_my_own_wallpaper">Can I create my own wallpaper?</string>
+    <string name="wallpaper_create">Yes! Chameleon provides first party support to Kustom Live Wallpaper Maker app. With KLWP, you can design your own theme and use colors extracted by Chameleon. Below formulas represent each color category.</string>
+    <string name="tap_to_copy">Tap to copy and paste it in Kustom</string>
+    <string name="copied_alert">%s copied!</string>
 </resources>

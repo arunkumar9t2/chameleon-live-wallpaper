@@ -63,6 +63,7 @@
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:padding="16dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             tools:context="arun.com.chameleonskinforkwlp.MainActivity"
@@ -77,8 +78,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="bottom|start"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
                     android:paddingTop="8dp"
                     android:text="@string/theme"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
@@ -92,6 +91,10 @@
                     <android.support.v7.widget.CardView
                         android:id="@+id/lollipop_theme_card"
                         style="@style/ThemeCard.Style"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="8dp"
                         android:onClick="@{handlers::onThemeSelectorClicked}"
                         app:cardCornerRadius="2dp"
                         app:cardPreventCornerOverlap="true"
@@ -112,6 +115,10 @@
                     <android.support.v7.widget.CardView
                         android:id="@+id/marshmallow_theme_card"
                         style="@style/ThemeCard.Style"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:onClick="@{handlers::onThemeSelectorClicked}"
                         app:cardCornerRadius="2dp"
                         app:cardPreventCornerOverlap="true"
@@ -130,6 +137,119 @@
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
 
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        style="@style/Widget.CardContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/can_i_create_my_own_wallpaper"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/wallpaper_create" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:gravity="center"
+                            android:text="@string/tap_to_copy"
+                            android:textColor="#212121"
+                            android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:id="@+id/copyitems"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,prominentb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,prominentt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,vibrantb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,vibrantt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,darkvibrantb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,darkvibrantt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,lightvibrantb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,lightvibrantt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,mutedb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,mutedt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,darkmutedb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,darkmutedt)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,lightmutedb)$" />
+
+                            <TextView
+                                style="@style/FormulaTextStyle"
+                                android:onClick="@{handlers::onFormulaClicked}"
+                                android:text="$br(chameleon,lightmutedt)$" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
             </LinearLayout>
 
 

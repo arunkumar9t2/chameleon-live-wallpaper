@@ -18,23 +18,23 @@ public class Broadcaster {
     private static final String KUSTOM_ACTION_VAR_NAME = "org.kustom.action.VAR_NAME";
     private static final String KUSTOM_ACTION_VAR_VALUE = "org.kustom.action.VAR_VALUE";
     private static final String CHAMELEON = "chameleon";
-    private static final String prominentb = "prominentb";
-    private static final String prominentt = "prominentt";
-    private static final String vibrantb = "vibrantb";
-    private static final String vibrantt = "vibrantt";
-    private static final String darkvibrantb = "darkvibrantb";
-    private static final String darkvibrantt = "darkvibrantt";
-    private static final String lightvibrantb = "lightvibrantb";
-    private static final String lightvibrantt = "lightvibrantt";
-    private static final String mutedb = "mutedb";
-    private static final String mutedt = "mutedt";
-    private static final String darkmutedb = "darkmutedb";
-    private static final String darkmutedt = "darkmutedt";
-    private static final String lightmutedb = "lightmutedb";
-    private static final String lightmutedt = "lightmutedt";
-    private static final String[][] cham_group = {{prominentb, prominentt}, {vibrantb, vibrantt}, {darkvibrantb, darkvibrantt},
-            {lightvibrantb, lightvibrantt}, {mutedb, mutedt},
-            {darkmutedb, darkmutedt}, {lightmutedb, lightmutedt}};
+    private static final String PROMINENTB = "prominentb";
+    private static final String PROMINENTT = "prominentt";
+    private static final String VIBRANTB = "vibrantb";
+    private static final String VIBRANTT = "vibrantt";
+    private static final String DARKVIBRANTB = "darkvibrantb";
+    private static final String DARKVIBRANTT = "darkvibrantt";
+    private static final String LIGHTVIBRANTB = "lightvibrantb";
+    private static final String LIGHTVIBRANTT = "lightvibrantt";
+    private static final String MUTEDB = "mutedb";
+    private static final String MUTEDT = "mutedt";
+    private static final String DARKMUTEDB = "darkmutedb";
+    private static final String DARKMUTEDT = "darkmutedt";
+    private static final String LIGHTMUTEDB = "lightmutedb";
+    private static final String LIGHTMUTEDT = "lightmutedt";
+    private static final String[][] cham_group = {{PROMINENTB, PROMINENTT}, {VIBRANTB, VIBRANTT}, {DARKVIBRANTB, DARKVIBRANTT},
+            {LIGHTVIBRANTB, LIGHTVIBRANTT}, {MUTEDB, MUTEDT},
+            {DARKMUTEDB, DARKMUTEDT}, {LIGHTMUTEDB, LIGHTMUTEDT}};
 
     public static void broadcastColors(Context context, List<Swatch> swatches) {
         if (swatches != null) {

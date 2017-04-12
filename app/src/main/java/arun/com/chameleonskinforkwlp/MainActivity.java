@@ -1,7 +1,10 @@
 package arun.com.chameleonskinforkwlp;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -16,6 +19,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -74,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
     public void onThemeSelectorClicked(View view) {
         binding.setTheme(Preferences.get(this).toggleTheme());
         binding.executePendingBindings();
+    }
+
+    public void onFormulaClicked(View view) {
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            final ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            final CharSequence textToCopy = textView.getText();
+            final ClipData clip = ClipData.newPlainText("formula", textToCopy);
+            Snackbar.make(binding.coordinatorLayout, String.format(getString(R.string.copied_alert), textToCopy), Snackbar.LENGTH_SHORT).show();
+            clipboard.setPrimaryClip(clip);
+        }
     }
 
     private void checkPermissionAndLaunchCamera() {
