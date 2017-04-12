@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 
 import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
+import arun.com.chameleonskinforkwlp.preferences.Preferences;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
@@ -75,6 +76,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Snackbar.make(mainBinding.coordinatorLayout, R.string.camera_not_found, Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    public void onThemeSelectorClicked(View view) {
+        mainBinding.setTheme(Preferences.get(this).toggleTheme());
+        mainBinding.executePendingBindings();
     }
 
     private File createImageFile() throws IOException {
