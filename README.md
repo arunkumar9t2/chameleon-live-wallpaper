@@ -18,4 +18,4 @@ Chameleon will extract colors and update the wallpaper automatically.
 
 # Demo Video:
 
-[![IMAGE ALT TEXT](http://img.youtube.com/vi/Zy2YGSccM1g/0.jpg)](https://www.youtube.com/watch?v=)
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/Zy2YGSccM1g/0.jpg)](https://www.youtube.com/watch?v=Zy2YGSccM1g)
