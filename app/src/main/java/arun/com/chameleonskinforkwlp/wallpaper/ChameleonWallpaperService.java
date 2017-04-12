@@ -25,7 +25,7 @@ import arun.com.chameleonskinforkwlp.wallpaper.drawing.MarshmallowRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;
 
 public class ChameleonWallpaperService extends WallpaperService {
-    public static final String COLOR_CARRY_FILTER = "com.arun.wallpaper.colors";
+    public static final String ACTION_COLOR_EXTRACTED = "arun.com.chameleonskinforkwlp.COLOR_EXTRACTED";
     public static String VIBRANT = "VIBRANT";
     public static String DARK_VIBRANT = "DARK_VIBRANT";
     public static String MUTED = "MUTED";
@@ -57,7 +57,7 @@ public class ChameleonWallpaperService extends WallpaperService {
         final BroadcastReceiver colorExtractedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(COLOR_CARRY_FILTER)) {
+                if (intent.getAction().equals(ACTION_COLOR_EXTRACTED)) {
                     extractedColors = intent.getParcelableArrayListExtra("Colors");
                     if (extractedColors != null) {
                         // Re render with updated extractedColors
@@ -83,7 +83,7 @@ public class ChameleonWallpaperService extends WallpaperService {
             super.onCreate(surfaceHolder);
             PreferenceManager.getDefaultSharedPreferences(ChameleonWallpaperService.this)
                     .registerOnSharedPreferenceChangeListener(this);
-            registerReceiver(colorExtractedReceiver, new IntentFilter(COLOR_CARRY_FILTER));
+            registerReceiver(colorExtractedReceiver, new IntentFilter(ACTION_COLOR_EXTRACTED));
         }
 
         @Override
