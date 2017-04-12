@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Name of the skin to be shown inside the app, by default its the same as the app name -->
+    <string name="kustom_pack_title">Chameleon Kustom Plugin.</string>
+    <!-- A brief description of the pack contents -->
+    <string name="kustom_pack_description">A wallpaper that adapts to surroundings. Works by taking a picture and extracting colors.</string>
+    <!-- Title on the Tool Bar -->
+    <string name="kustom_dashboard_title">Chameleon Kustom Plugin.</string>
+    <!-- Decides Weather Dark Or Light Theme Should Be Used -->
+    <bool name="kustom_dashboard_light_theme">false</bool>
+    <!--
+    Dark Theme Colors Change These If Dark Theme Is Enabled
+    -->
+    <!-- Accent color used for dialog buttons and navigation pager -->
+    <color name="kustom_dashboard_dark_accent">#fff000</color>
+    <!-- Toolbar and preset card background color -->
+    <color name="kustom_dashboard_dark_primary_dark">#222222</color>
+    <!-- Main background for the app -->
+    <color name="kustom_dashboard_dark_primary">#444444</color>
+    <!-- Text used in toolbar and cards title -->
+    <color name="kustom_dashboard_dark_primary_text">#F0F0F0</color>
+    <!-- Text used in dialog text -->
+    <color name="kustom_dashboard_dark_secondary_text">#D0D0D0</color>
+    <!--
+    Light Theme Colors Change These If Light Theme Is Enabled
+    -->
+    <!-- Accent color used for dialog buttons and navigation pager -->
+    <color name="kustom_dashboard_light_accent">#fff000</color>
+    <!-- Toolbar and preset card background color -->
+    <color name="kustom_dashboard_light_primary_dark">#404040</color>
+    <!-- Main background for the app -->
+    <color name="kustom_dashboard_light_primary">#E0E0E0</color>
+    <!-- Text used in toolbar and cards title -->
+    <color name="kustom_dashboard_light_primary_text">#303030</color>
+    <!-- Text used in dialog text -->
+    <color name="kustom_dashboard_light_secondary_text">#505050</color>
+</resources>

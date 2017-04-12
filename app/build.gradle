@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
-
+dependencies {
+    //noinspection GradleDynamicVersion
+    compile 'org.bitbucket.frankmonza:kustomapi:+'
+}
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -14,8 +17,12 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules'
+        }
+        aaptOptions {
+            noCompress 'zip', 'komp', 'klwp', 'kwgt', 'klck', 'kwch'
         }
     }
     dataBinding {

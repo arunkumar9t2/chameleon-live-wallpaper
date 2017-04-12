@@ -23,3 +23,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# Basic stuff
+-forceprocessing
+-optimizationpasses 5
+
+# Kustom API (do not change this)
+-keepattributes Signature,Exceptions,*Annotation*,SourceFile,LineNumberTable,EnclosingMethod
+-keep class org.kustom.**
+-keepclassmembers class org.kustom.** { *; }

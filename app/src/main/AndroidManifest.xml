@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="arun.com.chameleonskinforkwlp">
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -10,7 +11,7 @@
 
     <application
         android:name=".Chameleon"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -50,9 +51,19 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <provider
+            android:name="org.kustom.api.Provider"
+            android:authorities="${applicationId}.kustom.provider"
+            android:exported="true"
+            tools:ignore="ExportedContentProvider">
+            <intent-filter>
+                <action android:name="org.kustom.provider.WALLPAPERS" />
+            </intent-filter>
+        </provider>
+
         <service
             android:name=".engine.ExtractorService"
-            android:exported="false"></service>
+            android:exported="false" />
     </application>
 
 </manifest>
