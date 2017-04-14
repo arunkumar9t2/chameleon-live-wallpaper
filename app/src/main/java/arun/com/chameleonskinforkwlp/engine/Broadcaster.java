@@ -9,9 +9,6 @@ import java.util.List;
 
 import static arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService.ACTION_COLOR_EXTRACTED;
 
-/**
- * Created by Arun on 05/08/2015.
- */
 class Broadcaster {
     private static final String KUSTOM_ACTION = "org.kustom.action.SEND_VAR";
     private static final String KUSTOM_ACTION_EXT_NAME = "org.kustom.action.EXT_NAME";

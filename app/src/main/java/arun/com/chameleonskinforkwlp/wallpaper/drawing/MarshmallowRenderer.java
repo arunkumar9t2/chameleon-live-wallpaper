@@ -11,10 +11,6 @@ import java.util.HashMap;
 import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService;
 
-/**
- * Created by arunk on 12-04-2017.
- */
-
 public class MarshmallowRenderer implements Renderer {
     private Paint paint;
 

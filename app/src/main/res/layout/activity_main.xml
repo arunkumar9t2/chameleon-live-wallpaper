@@ -104,7 +104,8 @@
                         <ImageView
                             android:id="@+id/lollipop_theme_thumbnail"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/lollipop" />
 
                         <TextView
                             android:id="@+id/lollipop_theme_title"
@@ -128,7 +129,8 @@
                         <ImageView
                             android:id="@+id/marshmallow_theme_thumbnail"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/marshmallow" />
 
                         <TextView
                             android:id="@+id/marshmallow_theme_title"
