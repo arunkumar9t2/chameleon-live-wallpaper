@@ -35,7 +35,6 @@ import java.util.List;
 
 import arun.com.chameleonskinforkwlp.engine.Swatch;
 import arun.com.chameleonskinforkwlp.preferences.Preferences;
-import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.LollipopWallRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.MarshmallowRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;
@@ -58,8 +57,6 @@ public class ChameleonWallpaperService extends WallpaperService {
         private final Handler handler = new Handler();
         private final Paint paint = new Paint();
         private final boolean touchEnabled;
-        int height;
-        private int width;
         private boolean visible = true;
 
         private final Runnable drawRunnable = new Runnable() {
@@ -121,9 +118,8 @@ public class ChameleonWallpaperService extends WallpaperService {
 
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            this.width = width;
-            this.height = height;
             super.onSurfaceChanged(holder, format, width, height);
+            renderIfVisible();
         }
 
         @Override
@@ -190,7 +186,7 @@ public class ChameleonWallpaperService extends WallpaperService {
             } else {
                 renderer = new MarshmallowRenderer();
             }
-            renderer.draw(canvas, paint, new Size(width, height), colorMap);
+            renderer.draw(canvas, paint, colorMap);
         }
 
         @Override

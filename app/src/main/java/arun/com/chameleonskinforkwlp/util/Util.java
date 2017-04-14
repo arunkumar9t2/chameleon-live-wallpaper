@@ -27,6 +27,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 public class Util {
+    public static final int NO_COLOR = -1;
+
     @BindingConversion
     public static ColorDrawable convertColorToDrawable(int color) {
         return color != 0 ? new ColorDrawable(color) : null;
@@ -34,7 +36,6 @@ public class Util {
 
     public static boolean isPackageInstalled(@NonNull Context c, @Nullable String pkgName) {
         if (pkgName == null) return false;
-
         PackageManager pm = c.getApplicationContext().getPackageManager();
         try {
             pm.getPackageInfo(pkgName, PackageManager.GET_ACTIVITIES);
