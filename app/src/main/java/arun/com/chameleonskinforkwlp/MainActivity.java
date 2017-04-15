@@ -58,7 +58,28 @@ public class MainActivity extends CameraCapturerActivity {
 
         initToolbar();
         initThemeSelector();
+        initSetWallpaperPrompt();
     }
+
+    /**
+     * Prompt the user to set our app as live wallpaper if the user has not set it.
+     */
+    private void initSetWallpaperPrompt() {
+        final WallpaperManager wm = WallpaperManager.getInstance(getApplicationContext());
+        if ((wm.getWallpaperInfo() != null && wm.getWallpaperInfo().getPackageName().equalsIgnoreCase(getPackageName()))) {
+            // We are good
+        } else {
+            // Ask user.
+            Snackbar.make(binding.coordinatorLayout, R.string.set_live_wallpaer_promt, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            launchSetWallpaperScreen();
+                        }
+                    }).show();
+        }
+    }
+
 
     private void initToolbar() {
         setSupportActionBar(binding.toolbar);
@@ -103,10 +124,7 @@ public class MainActivity extends CameraCapturerActivity {
                         if (drawerItem != null) {
                             switch (drawerItem.getIdentifier()) {
                                 case 1:
-                                    final Intent setWallpaper = new Intent();
-                                    setWallpaper.setAction(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-                                    setWallpaper.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(getPackageName(), ChameleonWallpaperService.class.getName()));
-                                    startActivityForResult(setWallpaper, 0);
+                                    launchSetWallpaperScreen();
                                     break;
                                 case 2:
                                     if (Util.isPackageInstalled(MainActivity.this, "org.kustom.wallpaper")) {
@@ -128,6 +146,13 @@ public class MainActivity extends CameraCapturerActivity {
                     }
                 })
                 .build();
+    }
+
+    private void launchSetWallpaperScreen() {
+        final Intent setWallpaper = new Intent();
+        setWallpaper.setAction(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        setWallpaper.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(getPackageName(), ChameleonWallpaperService.class.getName()));
+        startActivityForResult(setWallpaper, 0);
     }
 
     private void initThemeSelector() {
