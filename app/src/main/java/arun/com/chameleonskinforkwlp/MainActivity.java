@@ -42,6 +42,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
@@ -126,17 +127,21 @@ public class MainActivity extends CameraCapturerActivity {
                                 .withIcon(GoogleMaterial.Icon.gmd_palette)
                                 .withIdentifier(2),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem()
+                        new SecondaryDrawerItem()
                                 .withName(R.string.rate_this_app)
                                 .withSelectable(false)
                                 .withIdentifier(3)
                                 .withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem()
+                        new SecondaryDrawerItem()
                                 .withName(R.string.privacy_policy)
                                 .withIcon(GoogleMaterial.Icon.gmd_insert_drive_file)
                                 .withSelectable(false)
                                 .withIdentifier(4),
-                        new DividerDrawerItem()
+                        new SecondaryDrawerItem()
+                                .withName(R.string.more_apps)
+                                .withIcon(GoogleMaterial.Icon.gmd_account_circle)
+                                .withSelectable(false)
+                                .withIdentifier(5)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -159,6 +164,13 @@ public class MainActivity extends CameraCapturerActivity {
                                 case 4:
                                     Intent licenses = new Intent(Intent.ACTION_VIEW, Uri.parse("http://htmlpreview.github.com/?https://github.com/arunkumar9t2/chameleon-live-wallpaper/blob/master/privacy_policy.html"));
                                     startActivity(licenses);
+                                    break;
+                                case 5:
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:Arunkumar")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/search?q=pub:Arunkumar")));
+                                    }
                                     break;
                             }
                         }
