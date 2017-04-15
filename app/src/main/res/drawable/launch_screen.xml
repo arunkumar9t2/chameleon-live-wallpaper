@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2017 Arunkumar
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +13,12 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<resources>
-    <dimen name="app_bar_height">260dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="@color/primary" />
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/ic_chameleon_icon_product" />
+    </item>
+</layer-list>

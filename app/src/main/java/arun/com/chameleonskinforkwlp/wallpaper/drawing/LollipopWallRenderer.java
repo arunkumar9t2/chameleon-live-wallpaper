@@ -1,47 +1,50 @@
+/*
+ * Copyright 2017 Arunkumar
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package arun.com.chameleonskinforkwlp.wallpaper.drawing;
 
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
-import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService;
 
 public class LollipopWallRenderer implements Renderer {
-    private Paint paint;
 
     public LollipopWallRenderer() {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, Size size, HashMap<String, Integer> colorMap) {
-        final int width = size.width;
-        final int height = size.height;
-        this.paint = paint;
+    public void draw(@NonNull Canvas canvas, @NonNull Paint paint, @NonNull HashMap<String, Integer> colorMap) {
+        final int width = canvas.getWidth();
+        final int height = canvas.getHeight();
 
         // divide into blocks
         int block = height / 40;
 
-        // set default colors just in case
-        int muted = Color.parseColor("#E91E63");
-        int darkMuted = Color.parseColor("#880E4F");
-        int vibrant = Color.parseColor("#00BCD4");
-        int darkVibrant = Color.parseColor("#00ACC1");
-        int lightMuted = Color.parseColor("#80DEEA");
-
-        // set the colors;
-        if (colorMap != null) {
-            muted = colorMap.get(ChameleonWallpaperService.MUTED) != null ? colorMap.get(ChameleonWallpaperService.MUTED) : muted;
-            darkMuted = colorMap.get(ChameleonWallpaperService.DARK_MUTED) != null ? colorMap.get(ChameleonWallpaperService.DARK_MUTED) : darkMuted;
-            vibrant = colorMap.get(ChameleonWallpaperService.VIBRANT) != null ? colorMap.get(ChameleonWallpaperService.VIBRANT) : vibrant;
-            darkVibrant = colorMap.get(ChameleonWallpaperService.DARK_VIBRANT) != null ? colorMap.get(ChameleonWallpaperService.DARK_VIBRANT) : darkVibrant;
-            lightMuted = colorMap.get(ChameleonWallpaperService.LIGHT_MUTED) != null ? colorMap.get(ChameleonWallpaperService.LIGHT_MUTED) : lightMuted;
-        }
+        int muted = colorMap.get(ChameleonWallpaperService.MUTED);
+        int darkMuted = colorMap.get(ChameleonWallpaperService.DARK_MUTED);
+        int vibrant = colorMap.get(ChameleonWallpaperService.VIBRANT);
+        int darkVibrant = colorMap.get(ChameleonWallpaperService.DARK_VIBRANT);
+        int lightMuted = colorMap.get(ChameleonWallpaperService.LIGHT_MUTED);
 
         // declare points for quadrilateral
         Point point1;
@@ -55,9 +58,9 @@ public class LollipopWallRenderer implements Renderer {
 
         // set the background color.
         canvas.drawColor(darkMuted);
-        this.paint.setShadowLayer(14.0f, 1.0f, 2.0f, 0x85000000);
+        paint.setShadowLayer(14.0f, 1.0f, 2.0f, 0x85000000);
 
-        this.paint.setColor(muted);
+        paint.setColor(muted);
         point1 = new Point(9 * block, 16 * block);
         point2 = new Point(0, 7 * block);
         point3 = new Point(0, 25 * block);
@@ -69,10 +72,10 @@ public class LollipopWallRenderer implements Renderer {
         path.lineTo(point3.x, point3.y);
         path.lineTo(point1.x, point1.y);
         path.close();
-        canvas.drawPath(path, this.paint);
+        canvas.drawPath(path, paint);
 
         // draw quadrilateral root bg
-        this.paint.setColor(vibrant);
+        paint.setColor(vibrant);
         point1 = new Point(0, 11 * block);
         point2 = new Point(0, 0);
         point3 = new Point(width, 0);
@@ -88,10 +91,10 @@ public class LollipopWallRenderer implements Renderer {
         path.lineTo(point5.x, point5.y);
         path.lineTo(point1.x, point1.y);
         path.close();
-        canvas.drawPath(path, this.paint);
+        canvas.drawPath(path, paint);
         // quadrilateral end
 
-        this.paint.setColor(lightMuted);
+        paint.setColor(lightMuted);
         point1 = new Point(0, 0);
         point2 = new Point(width, 24 * block);
         point3 = new Point(width, 27 * block);
@@ -105,11 +108,11 @@ public class LollipopWallRenderer implements Renderer {
         path.lineTo(point4.x, point4.y);
         path.lineTo(point1.x, point1.y);
         path.close();
-        canvas.drawPath(path, this.paint);
+        canvas.drawPath(path, paint);
         // pipe end
 
         // draw triangle final
-        this.paint.setColor(lightMuted);
+        paint.setColor(lightMuted);
         point1 = new Point(width, 27 * block);
         point2 = new Point(12 * block, height);
         point3 = new Point(width, height);
@@ -121,10 +124,10 @@ public class LollipopWallRenderer implements Renderer {
         path.lineTo(point3.x, point3.y);
         path.lineTo(point1.x, point1.y);
         path.close();
-        canvas.drawPath(path, this.paint);
+        canvas.drawPath(path, paint);
         // triangle end
 
-        this.paint.setColor(darkVibrant);
+        paint.setColor(darkVibrant);
         point1 = new Point(12 * block, 24 * block);
         point2 = new Point(width, 11 * block);
         point3 = new Point(width, 36 * block);
@@ -136,7 +139,7 @@ public class LollipopWallRenderer implements Renderer {
         path.lineTo(point3.x, point3.y);
         path.lineTo(point1.x, point1.y);
         path.close();
-        canvas.drawPath(path, this.paint);
+        canvas.drawPath(path, paint);
         // triangle end
     }
 }

@@ -1,74 +1,115 @@
+/*
+ * Copyright 2017 Arunkumar
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package arun.com.chameleonskinforkwlp;
 
-import android.Manifest;
 import android.app.WallpaperManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
+import arun.com.chameleonskinforkwlp.activities.CameraCapturerActivity;
 import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
 import arun.com.chameleonskinforkwlp.engine.ExtractorService;
 import arun.com.chameleonskinforkwlp.preferences.Preferences;
 import arun.com.chameleonskinforkwlp.util.Util;
 import arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService;
-import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends CameraCapturerActivity {
     private ActivityMainBinding binding;
-
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_CAMERA_PERMISSION = 112;
-
-    private String currentPhotoPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandlers(this);
 
-        initToolbar();
+        initToolbar(savedInstanceState);
         initThemeSelector();
+        initSetWallpaperPrompt();
     }
 
-    private void initToolbar() {
+    /**
+     * Prompt the user to set our app as live wallpaper if the user has not set it.
+     */
+    private void initSetWallpaperPrompt() {
+        final WallpaperManager wm = WallpaperManager.getInstance(getApplicationContext());
+        if ((wm.getWallpaperInfo() != null && wm.getWallpaperInfo().getPackageName().equalsIgnoreCase(getPackageName()))) {
+            // We are good
+        } else {
+            // Ask user.
+            Snackbar.make(binding.coordinatorLayout, R.string.set_live_wallpaper_promt, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            launchSetWallpaperScreen();
+                        }
+                    }).show();
+        }
+    }
+
+
+    private void initToolbar(Bundle savedInstanceState) {
         setSupportActionBar(binding.toolbar);
         Glide.with(this).load(R.drawable.backdrop).centerCrop().into(binding.backdrop);
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.backdrop)
-                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withCompactStyle(true)
+                .withSelectionFirstLine(getResources().getString(R.string.app_name))
+                .withSelectionSecondLine(getResources().getString(R.string.app_tagline))
+                .withProfileImagesClickable(false)
+                .withSelectionListEnabled(false)
+                .withProfiles(new ArrayList<IProfile>() {{
+                    add(new ProfileDrawerItem().withIcon(new IconicsDrawable(MainActivity.this)
+                            .icon(GoogleMaterial.Icon.gmd_local_florist)
+                            .color(Color.WHITE)
+                            .sizeDp(20)
+                            .paddingDp(5)));
+                }})
+                .withHeaderBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.primary_dark)))
+                .withSelectionListEnabledForSingleProfile(false)
+                .withSavedInstance(savedInstanceState)
                 .build();
         new DrawerBuilder()
                 .withActivity(this)
@@ -86,28 +127,29 @@ public class MainActivity extends AppCompatActivity {
                                 .withIcon(GoogleMaterial.Icon.gmd_palette)
                                 .withIdentifier(2),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem()
+                        new SecondaryDrawerItem()
                                 .withName(R.string.rate_this_app)
                                 .withSelectable(false)
                                 .withIdentifier(3)
                                 .withIcon(GoogleMaterial.Icon.gmd_star),
-                        new PrimaryDrawerItem()
+                        new SecondaryDrawerItem()
                                 .withName(R.string.privacy_policy)
                                 .withIcon(GoogleMaterial.Icon.gmd_insert_drive_file)
                                 .withSelectable(false)
                                 .withIdentifier(4),
-                        new DividerDrawerItem()
+                        new SecondaryDrawerItem()
+                                .withName(R.string.more_apps)
+                                .withIcon(GoogleMaterial.Icon.gmd_account_circle)
+                                .withSelectable(false)
+                                .withIdentifier(5)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
-                            switch (drawerItem.getIdentifier()) {
+                            switch ((int) drawerItem.getIdentifier()) {
                                 case 1:
-                                    final Intent setWallpaper = new Intent();
-                                    setWallpaper.setAction(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
-                                    setWallpaper.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(getPackageName(), ChameleonWallpaperService.class.getName()));
-                                    startActivityForResult(setWallpaper, 0);
+                                    launchSetWallpaperScreen();
                                     break;
                                 case 2:
                                     if (Util.isPackageInstalled(MainActivity.this, "org.kustom.wallpaper")) {
@@ -123,12 +165,26 @@ public class MainActivity extends AppCompatActivity {
                                     Intent licenses = new Intent(Intent.ACTION_VIEW, Uri.parse("http://htmlpreview.github.com/?https://github.com/arunkumar9t2/chameleon-live-wallpaper/blob/master/privacy_policy.html"));
                                     startActivity(licenses);
                                     break;
+                                case 5:
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://search?q=pub:Arunkumar")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/search?q=pub:Arunkumar")));
+                                    }
+                                    break;
                             }
                         }
                         return false;
                     }
                 })
                 .build();
+    }
+
+    private void launchSetWallpaperScreen() {
+        final Intent setWallpaper = new Intent();
+        setWallpaper.setAction(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER);
+        setWallpaper.putExtra(WallpaperManager.EXTRA_LIVE_WALLPAPER_COMPONENT, new ComponentName(getPackageName(), ChameleonWallpaperService.class.getName()));
+        startActivityForResult(setWallpaper, 0);
     }
 
     private void initThemeSelector() {
@@ -174,86 +230,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void checkPermissionAndLaunchCamera() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            launchCamera();
-        } else {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                Snackbar.make(binding.coordinatorLayout, R.string.camera_permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.grant, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + getPackageName()));
-                                startActivity(intent);
-                            }
-                        }).show();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-            }
-        }
-    }
-
-    private void launchCamera() {
-        final Intent capturePicIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Check if any app can handle this intent for us.
-        final ComponentName componentName = capturePicIntent.resolveActivity(getPackageManager());
-        if (componentName != null) {
-            File imageFile = null;
-            try {
-                imageFile = createImageFile();
-            } catch (IOException ex) {
-                Timber.e("Error while creating image file", ex);
-            }
-            if (imageFile != null) {
-                final Uri photoURI = FileProvider.getUriForFile(this,
-                        "arun.com.chameleonskinforkwlp.fileprovider",
-                        imageFile);
-                capturePicIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(capturePicIntent, REQUEST_IMAGE_CAPTURE);
-            } else {
-                Snackbar.make(binding.coordinatorLayout, R.string.could_not_launch_camera, Snackbar.LENGTH_LONG).show();
-            }
-        } else {
-            Snackbar.make(binding.coordinatorLayout, R.string.camera_not_found, Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private File createImageFile() throws IOException {
-        final String imageFileName = "CAPTURED_IMAGE";
-        final File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        final File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
+    @Override
+    protected void onCapturedSuccessfully() {
+        Snackbar.make(binding.coordinatorLayout, R.string.picture_captured_successfully, Snackbar.LENGTH_SHORT).show();
+        Glide.with(this)
+                .load(takenPhotoPath)
+                .into(binding.backdrop);
+        ExtractorService.startExtraction(this, takenPhotoPath);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Glide.with(this)
-                    .load(currentPhotoPath)
-                    .into(binding.backdrop);
-            ExtractorService.startExtraction(this, currentPhotoPath);
-        }
+    protected void onCapturingCancelled() {
+        Snackbar.make(binding.coordinatorLayout, R.string.user_cancelled_taking_picture, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CAMERA_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    checkPermissionAndLaunchCamera();
-                } else {
-                    Snackbar.make(binding.coordinatorLayout, R.string.need_camera_permssion, Snackbar.LENGTH_SHORT).show();
-                }
-            }
-        }
+    protected void onRequiredCameraPermissionRationale() {
+        Snackbar.make(binding.coordinatorLayout, R.string.camera_permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.grant, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final Intent intent = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        intent.setData(Uri.parse("package:" + getPackageName()));
+                        startActivity(intent);
+                    }
+                }).show();
+    }
+
+    @Override
+    protected void onNoCameraDetected() {
+        Snackbar.make(binding.coordinatorLayout, R.string.camera_not_found, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onCameraLaunchingFailed() {
+        Snackbar.make(binding.coordinatorLayout, R.string.could_not_launch_camera, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onUserDeniedPermission() {
+        Snackbar.make(binding.coordinatorLayout, R.string.need_camera_permssion, Snackbar.LENGTH_SHORT).show();
     }
 }

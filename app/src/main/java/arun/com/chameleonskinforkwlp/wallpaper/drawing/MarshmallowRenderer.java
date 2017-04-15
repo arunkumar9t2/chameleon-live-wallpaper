@@ -1,19 +1,30 @@
+/*
+ * Copyright 2017 Arunkumar
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package arun.com.chameleonskinforkwlp.wallpaper.drawing;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
+import android.support.annotation.NonNull;
 
 import java.util.HashMap;
 
-import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.ChameleonWallpaperService;
-
-/**
- * Created by arunk on 12-04-2017.
- */
 
 public class MarshmallowRenderer implements Renderer {
     private Paint paint;
@@ -23,28 +34,18 @@ public class MarshmallowRenderer implements Renderer {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, Size size, HashMap<String, Integer> colorMap) {
-        int width = size.width;
-        int height = size.height;
+    public void draw(@NonNull Canvas canvas, @NonNull Paint paint, @NonNull HashMap<String, Integer> colorMap) {
+        final int width = canvas.getWidth();
+        final int height = canvas.getHeight();
         this.paint = paint;
-
         // divide into blocks
         int block = height / 40;
 
-        // set default colors just in case
-        int muted = Color.parseColor("#E91E63");
-        int darkMuted = Color.parseColor("#880E4F");
-        int vibrant = Color.parseColor("#00BCD4");
-        int darkVibrant = Color.parseColor("#00ACC1");
-        int lightMuted = Color.parseColor("#80DEEA");
-
-        if (colorMap != null) {
-            muted = colorMap.get(ChameleonWallpaperService.MUTED) != null ? colorMap.get(ChameleonWallpaperService.MUTED) : muted;
-            darkMuted = colorMap.get(ChameleonWallpaperService.DARK_MUTED) != null ? colorMap.get(ChameleonWallpaperService.DARK_MUTED) : darkMuted;
-            vibrant = colorMap.get(ChameleonWallpaperService.VIBRANT) != null ? colorMap.get(ChameleonWallpaperService.VIBRANT) : vibrant;
-            darkVibrant = colorMap.get(ChameleonWallpaperService.DARK_VIBRANT) != null ? colorMap.get(ChameleonWallpaperService.DARK_VIBRANT) : darkVibrant;
-            lightMuted = colorMap.get(ChameleonWallpaperService.LIGHT_MUTED) != null ? colorMap.get(ChameleonWallpaperService.LIGHT_MUTED) : lightMuted;
-        }
+        int muted = colorMap.get(ChameleonWallpaperService.MUTED);
+        int darkMuted = colorMap.get(ChameleonWallpaperService.DARK_MUTED);
+        int vibrant = colorMap.get(ChameleonWallpaperService.VIBRANT);
+        int darkVibrant = colorMap.get(ChameleonWallpaperService.DARK_VIBRANT);
+        int lightMuted = colorMap.get(ChameleonWallpaperService.LIGHT_MUTED);
 
         Point point1;
         Point point2;

@@ -1,3 +1,19 @@
+/*
+ * Copyright 2017 Arunkumar
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package arun.com.chameleonskinforkwlp.wallpaper;
 
 import android.content.BroadcastReceiver;
@@ -19,7 +35,6 @@ import java.util.List;
 
 import arun.com.chameleonskinforkwlp.engine.Swatch;
 import arun.com.chameleonskinforkwlp.preferences.Preferences;
-import arun.com.chameleonskinforkwlp.util.Size;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.LollipopWallRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.MarshmallowRenderer;
 import arun.com.chameleonskinforkwlp.wallpaper.drawing.Renderer;
@@ -42,8 +57,6 @@ public class ChameleonWallpaperService extends WallpaperService {
         private final Handler handler = new Handler();
         private final Paint paint = new Paint();
         private final boolean touchEnabled;
-        int height;
-        private int width;
         private boolean visible = true;
 
         private final Runnable drawRunnable = new Runnable() {
@@ -105,9 +118,8 @@ public class ChameleonWallpaperService extends WallpaperService {
 
         @Override
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            this.width = width;
-            this.height = height;
             super.onSurfaceChanged(holder, format, width, height);
+            renderIfVisible();
         }
 
         @Override
@@ -174,7 +186,7 @@ public class ChameleonWallpaperService extends WallpaperService {
             } else {
                 renderer = new MarshmallowRenderer();
             }
-            renderer.draw(canvas, paint, new Size(width, height), colorMap);
+            renderer.draw(canvas, paint, colorMap);
         }
 
         @Override
