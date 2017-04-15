@@ -49,7 +49,7 @@ dependencies {
 
     compile 'com.jakewharton.timber:timber:4.5.1'
 
-    compile('com.mikepenz:materialdrawer:4.0.8@aar') {
+    compile('com.mikepenz:materialdrawer:5.9.0@aar') {
         transitive = true
     }
 }

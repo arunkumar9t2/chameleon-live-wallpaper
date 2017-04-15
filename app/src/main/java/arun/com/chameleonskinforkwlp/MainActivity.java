@@ -23,22 +23,29 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+
+import java.util.ArrayList;
 
 import arun.com.chameleonskinforkwlp.activities.CameraCapturerActivity;
 import arun.com.chameleonskinforkwlp.databinding.ActivityMainBinding;
@@ -56,7 +63,7 @@ public class MainActivity extends CameraCapturerActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setHandlers(this);
 
-        initToolbar();
+        initToolbar(savedInstanceState);
         initThemeSelector();
         initSetWallpaperPrompt();
     }
@@ -81,14 +88,26 @@ public class MainActivity extends CameraCapturerActivity {
     }
 
 
-    private void initToolbar() {
+    private void initToolbar(Bundle savedInstanceState) {
         setSupportActionBar(binding.toolbar);
         Glide.with(this).load(R.drawable.backdrop).centerCrop().into(binding.backdrop);
         AccountHeader header = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.backdrop)
-                .withHeaderBackgroundScaleType(ImageView.ScaleType.CENTER_CROP)
                 .withCompactStyle(true)
+                .withSelectionFirstLine(getResources().getString(R.string.app_name))
+                .withSelectionSecondLine(getResources().getString(R.string.app_tagline))
+                .withProfileImagesClickable(false)
+                .withSelectionListEnabled(false)
+                .withProfiles(new ArrayList<IProfile>() {{
+                    add(new ProfileDrawerItem().withIcon(new IconicsDrawable(MainActivity.this)
+                            .icon(GoogleMaterial.Icon.gmd_local_florist)
+                            .color(Color.WHITE)
+                            .sizeDp(20)
+                            .paddingDp(5)));
+                }})
+                .withHeaderBackground(new ColorDrawable(ContextCompat.getColor(this, R.color.primary_dark)))
+                .withSelectionListEnabledForSingleProfile(false)
+                .withSavedInstance(savedInstanceState)
                 .build();
         new DrawerBuilder()
                 .withActivity(this)
@@ -122,7 +141,7 @@ public class MainActivity extends CameraCapturerActivity {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
-                            switch (drawerItem.getIdentifier()) {
+                            switch ((int) drawerItem.getIdentifier()) {
                                 case 1:
                                     launchSetWallpaperScreen();
                                     break;
