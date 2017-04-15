@@ -80,6 +80,11 @@
             android:name=".engine.ExtractorService"
             android:exported="false" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${crashlyticsApiKey}"
+            tools:replace="android:value" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
