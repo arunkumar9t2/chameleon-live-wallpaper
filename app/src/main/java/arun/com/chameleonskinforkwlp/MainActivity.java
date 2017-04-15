@@ -78,7 +78,7 @@ public class MainActivity extends CameraCapturerActivity {
             // We are good
         } else {
             // Ask user.
-            Snackbar.make(binding.coordinatorLayout, R.string.set_live_wallpaer_promt, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(binding.coordinatorLayout, R.string.set_live_wallpaper_promt, Snackbar.LENGTH_INDEFINITE)
                     .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -220,6 +220,7 @@ public class MainActivity extends CameraCapturerActivity {
 
     @Override
     protected void onCapturedSuccessfully() {
+        Snackbar.make(binding.coordinatorLayout, R.string.picture_captured_successfully, Snackbar.LENGTH_SHORT).show();
         Glide.with(this)
                 .load(takenPhotoPath)
                 .into(binding.backdrop);

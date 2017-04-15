@@ -27,6 +27,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.ShortcutCameraActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <activity
+            android:name=".activities.ShortcutCreatorActivity"
+            android:label="@string/shortcut_name"
+            android:theme="@style/Theme.AppCompat.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <service
             android:name=".wallpaper.ChameleonWallpaperService"
@@ -50,7 +66,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <provider
             android:name="org.kustom.api.Provider"
             android:authorities="${applicationId}.kustom.provider"
@@ -64,6 +79,7 @@
         <service
             android:name=".engine.ExtractorService"
             android:exported="false" />
+
     </application>
 
 </manifest>

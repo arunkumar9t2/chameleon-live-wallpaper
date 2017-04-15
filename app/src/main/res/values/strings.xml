@@ -33,6 +33,9 @@
     <string name="rate_this_app">Rate this app!</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="user_cancelled_taking_picture">Cancelled capturing photo.</string>
-    <string name="set_live_wallpaer_promt">Set Chameleon as the live wallpaper</string>
+    <string name="set_live_wallpaper_promt">Set Chameleon as the live wallpaper</string>
     <string name="app_tagline">Color adapting wallpaper.</string>
+    <string name="picture_captured_successfully">Picture captured successfully</string>
+    <string name="extraction_complete">Extraction complete and colors updated.</string>
+    <string name="shortcut_name">Chameleon Udpate</string>
 </resources>

@@ -20,9 +20,13 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import arun.com.chameleonskinforkwlp.R;
 import timber.log.Timber;
 
 public class ExtractorService extends IntentService {
@@ -62,6 +66,12 @@ public class ExtractorService extends IntentService {
             if (bitmap != null) {
                 Extractor.forBitmap(this, bitmap).doExtraction();
             }
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(ExtractorService.this, R.string.extraction_complete, Toast.LENGTH_SHORT).show();
+                }
+            });
         } catch (Exception e) {
             Timber.e(e);
         }

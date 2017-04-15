@@ -71,6 +71,7 @@ public class Extractor {
             } else {
                 palette = Palette.from(bitmap).generate();
             }
+            Palette.Swatch dominantSwatch = palette.getDominantSwatch();
             Palette.Swatch vibrantSwatch = palette.getVibrantSwatch();
             Palette.Swatch vibrantDarkSwatch = palette.getDarkVibrantSwatch();
             Palette.Swatch vibrantLightSwatch = palette.getLightVibrantSwatch();
@@ -94,6 +95,7 @@ public class Extractor {
                 vibrantLightSwatch = mutedLightSwatch;
             }
 
+            generatedSwatches.add(dominantSwatch);
             generatedSwatches.add(vibrantSwatch);
             generatedSwatches.add(vibrantDarkSwatch);
             generatedSwatches.add(vibrantLightSwatch);
